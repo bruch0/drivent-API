@@ -1,0 +1,21 @@
+seeds:
+    - Setting:
+        id: 1
+        name: "start_date"
+        value: "2021-11-21 20:30:00"
+    - Setting:
+        id: 2
+        name: "end_date"
+        value: "2021-11-25 20:30:00"
+    - Setting:
+        id: 3
+        name: "event_title"
+        value: "Driven.t"
+    - Setting:
+        id: 4
+        name: "background_image"
+        value: "linear-gradient(to right, #FA4098, #FFD77F)"
+    - Setting:
+        id: 5
+        name: "logo_image"
+        value: "https://driveneducation.com.br/wp-content/uploads/2021/07/logo-footer.svg"
