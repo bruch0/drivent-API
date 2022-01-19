@@ -6,7 +6,8 @@
   "scripts": {
     "test": "NODE_ENV=test npm run eslint:fix && npx jest -i",
     "build": "NODE_ENV=production rm -rf ./dist && npm run eslint:fix && npx ttsc -P ./tsconfig.json --outDir dist && babel dist -d dist",
-    "start": "NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 node dist/server.js",
+    "start": "NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 node ./dist/src/index.js",
+    "deploy": "npm run migration:run && git push heroku main",
     "dev": "NODE_ENV=development npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"npm run eslint:fix && ts-node -r tsconfig-paths/register --files src/server.ts\"",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
     "migration:generate": "npm run build && npm run typeorm migration:generate --",
