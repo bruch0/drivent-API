@@ -18,8 +18,8 @@ export default class Booking extends BaseEntity {
   @Column()
   roomNumber: number;
 
-  @Column()
-  isTaken: { type: boolean; default: false };
+  @Column("boolean", { default: false })
+  isTaken: boolean;
 
   @ManyToOne(() => Hotel, hotel => hotel.bookings)
   hotel: Hotel;
@@ -27,4 +27,8 @@ export default class Booking extends BaseEntity {
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
+
+  static async get(hotelId: number) {
+    return { hotelId };
+  }
 }
