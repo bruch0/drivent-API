@@ -18,6 +18,24 @@ export default class Hotel extends BaseEntity {
   @Column()
   roomTypes: string;
 
-  @OneToMany(() => Booking, booking => booking.hotel)
+  @OneToMany(() => Booking, (booking: Booking) => booking.hotel)
   bookings: Booking[];
+
+  static async getRooms(hotelId: number) {
+    const result = await this.createQueryBuilder("hotel")
+      .select("booking.roomNumber", "roomNumber")
+      .addSelect(
+        "SUM(CASE WHEN booking.isTaken = FALSE THEN 1 ELSE 0 END)",
+        "available"
+      )
+      .addSelect(
+        "SUM(CASE WHEN booking.isTaken = TRUE THEN 1 ELSE 0 END)",
+        "unavailable"
+      )
+      .leftJoin("hotel.bookings", "booking")
+      .where({ id: hotelId })
+      .groupBy("booking.roomNumber")
+      .execute();
+    return result;
+  }
 }

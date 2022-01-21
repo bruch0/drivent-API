@@ -21,14 +21,10 @@ export default class Booking extends BaseEntity {
   @Column("boolean", { default: false })
   isTaken: boolean;
 
-  @ManyToOne(() => Hotel, hotel => hotel.bookings)
+  @ManyToOne(() => Hotel, (hotel: Hotel) => hotel.bookings)
   hotel: Hotel;
 
   @OneToOne(() => User)
   @JoinColumn()
   user: User;
-
-  static async get(hotelId: number) {
-    return { hotelId };
-  }
 }

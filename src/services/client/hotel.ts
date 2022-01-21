@@ -1,5 +1,5 @@
-import Booking from "@/entities/Booking";
+import Hotel from "@/entities/Hotel";
 
 export async function getRoomsInfo(hotelId: number) {
-  return await Booking.get(hotelId);
+  return await Hotel.getRooms(hotelId);
 }
