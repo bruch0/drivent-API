@@ -1,25 +1,24 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne} from "typeorm";
-import User from "./User";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
+import User from './User';
 
-@Entity("payments")
+@Entity('payments')
 export default class Payment extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+	@PrimaryGeneratedColumn()
+	id: number;
 
-  @Column('boolean')
-  hotel: boolean;
+	@Column()
+	hotel: boolean;
 
-  @Column('text')
-  ticket: string;
+	@Column()
+	ticket: string;
 
-  @Column()
-  value: number;
+	@Column()
+	value: number;
 
-  @OneToOne(() => User, { eager: true })
-  user: User;
+	@OneToOne(() => User, { eager: true })
+	user: User;
 
-  static async createNew() {
-  }
-
+	static async findByUserId(userId: number) {
+		return await this.findOne({ where: { userId } });
+	}
 }
-

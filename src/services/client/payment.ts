@@ -1,6 +1,6 @@
+import Payment from "@/entities/Payment";
 
-export async function findSessionByToken(token: string) {
-  const session = await Session.findOne({ where: { token } });
-
-  return session;
+export async function findByUserId(userId: number) {
+  const payment = await Payment.findByUserId(userId);
+  return payment;
 }
