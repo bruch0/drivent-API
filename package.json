@@ -10,7 +10,7 @@
     "deploy": "npm run migration:run && git push heroku main",
     "dev": "NODE_ENV=development npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \" ts-node -r tsconfig-paths/register --files src/server.ts\"",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
-    "migration:generate": "npm run build && npm run typeorm -- migration:generate -n CreateTable",
+    "migration:generate": "npm run build && npm run typeorm -- migration:generate -n ",
     "migration:run": "npm run build && npm run typeorm migration:run",
     "eslint": "npx eslint src",
     "eslint:fix": "npx eslint --fix src",

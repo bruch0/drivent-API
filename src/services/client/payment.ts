@@ -1,6 +1,6 @@
-import Payment from "@/entities/Payment";
+import Payment from '@/entities/Payment';
 
 export async function findByUserId(userId: number) {
-  const payment = await Payment.findByUserId(userId);
-  return payment;
+	const payment = await Payment.findByUserId(userId);
+	return payment;
 }

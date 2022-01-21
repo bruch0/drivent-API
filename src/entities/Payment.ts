@@ -6,7 +6,7 @@ export default class Payment extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column()
+	@Column({ default: false })
 	hotel: boolean;
 
 	@Column()
@@ -15,8 +15,8 @@ export default class Payment extends BaseEntity {
 	@Column()
 	value: number;
 
-	@OneToOne(() => User, { eager: true })
-	user: User;
+	@Column()
+	userId: number;
 
 	static async findByUserId(userId: number) {
 		return await this.findOne({ where: { userId } });
