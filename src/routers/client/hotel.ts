@@ -7,4 +7,3 @@ const router = Router();
 router.get("/", controller.getHotelInfo);
 
 export default router;
-  
