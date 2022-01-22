@@ -1,5 +1,4 @@
 import Enrollment from "@/entities/Enrollment";
-import Hotel from "@/entities/Hotel";
 
 export async function getHotelsInfo(userId: number) {
   const enrollment = await Enrollment.getByUserIdWithAddress(userId);
