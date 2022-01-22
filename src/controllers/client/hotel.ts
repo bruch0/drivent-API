@@ -3,7 +3,7 @@ import httpStatus from "http-status";
 
 import * as hotelService from "@/services/client/hotel";
 
-export async function getHotelInfo(req: Request, res: Response) {
+export async function getUserHotelInfo(req: Request, res: Response) {
   const hotelInfo = await hotelService.getHotelsInfo(req.user.id);
 
   if (!hotelInfo) {
