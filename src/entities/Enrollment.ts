@@ -41,7 +41,7 @@ export default class Enrollment extends BaseEntity {
     this.phone = data.phone;
     this.userId = data.userId;
 
-    this.address = Address.create();
+    this.address ||= Address.create();
     const { address } = this;
 
     address.cep = data.address.cep;
