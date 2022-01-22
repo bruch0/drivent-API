@@ -10,7 +10,7 @@
     "deploy": "npm run migration:run && git push heroku main",
     "dev": "NODE_ENV=development npx nodemon --watch \"src/**\" --ext \"ts,json\" --exec \" ts-node -r tsconfig-paths/register --files src/server.ts\"",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
-    "migration:generate": "npm run build && npm run typeorm migration:generate --",
+    "migration:generate": "npm run build && npm run typeorm -- migration:generate -n ",
     "migration:run": "npm run build && npm run typeorm migration:run",
     "eslint": "npx eslint src",
     "eslint:fix": "npx eslint --fix src",
@@ -34,7 +34,7 @@
     "@types/readline-sync": "1.4.4",
     "@types/supertest": "2.0.11",
     "@types/uuid": "8.3.1",
-    "@typescript-eslint/parser": "4.29.1",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
     "babel-cli": "6.26.0",
     "babel-plugin-module-resolver": "4.1.0",
     "eslint": "7.32.0",
@@ -65,7 +65,7 @@
     "readline-sync": "1.4.10",
     "reflect-metadata": "0.1.13",
     "typeorm": "0.2.34",
-    "uuid": "8.3.2",
-    "typescript-transform-paths": "3.3.1"
+    "typescript-transform-paths": "3.3.1",
+    "uuid": "8.3.2"
   }
 }
