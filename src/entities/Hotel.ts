@@ -18,7 +18,7 @@ export default class Hotel extends BaseEntity {
   @Column()
   roomTypes: string;
 
-  @OneToMany(() => Booking, (booking: Booking) => booking.hotel)
+  @OneToMany(() => Booking, booking => booking.hotel)
   bookings: Booking[];
 
   static async checkHotel(hotelId: number) {

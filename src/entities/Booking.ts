@@ -18,10 +18,10 @@ export default class Booking extends BaseEntity {
   @Column()
   roomNumber: number;
 
-  @Column("boolean", { default: false })
+  @Column()
   isTaken: boolean;
 
-  @ManyToOne(() => Hotel, (hotel: Hotel) => hotel.bookings)
+  @ManyToOne(() => Hotel, (hotel) => hotel.bookings)
   hotel: Hotel;
 
   @OneToOne(() => User)

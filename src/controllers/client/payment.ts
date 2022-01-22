@@ -1,33 +1,28 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import httpStatus from "http-status";
 
-import * as service from "@/services/client/payment";
+import * as paymentService from "@/services/client/payment";
 
-interface JwtPayload {
-    userId: number
-}
+async function getPaymentByUserId(req: Request, res: Response) {
+  const paymentInfo = await paymentService.findByUserId(req.user.id);
 
-async function getPaymentData(req: Request, res: Response) {
-    const authHeader = req.header("Authorization");
-    const token = authHeader?.replace("Bearer ", "");
-    const { userId } = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
+  if (!paymentInfo) {
+    return res.sendStatus(httpStatus.NO_CONTENT);
+  }
 
-    const paymentData = await service.getPaymentData(userId);
-    res.send(paymentData);
+  return res.send(paymentInfo);
 }
 
 async function savePaymentData(req: Request, res: Response) {
-    const authHeader = req.header("Authorization");
-    const token = authHeader?.replace("Bearer ", "");
-    const { userId } = jwt.verify(token, process.env.JWT_SECRET) as JwtPayload;
+  const  userId  = req.user.id;
 
-    const { ticket, hotel, value } = req.body;
+  const { ticket, hotel, value } = req.body;
 
-    await service.savePaymentData(ticket, hotel, value, userId);
-    res.sendStatus(201);   
+  await paymentService.savePaymentData(ticket, hotel, value, userId);
+  res.sendStatus(201);   
 }
 
 export {
-    getPaymentData,
-    savePaymentData,
-}
+  getPaymentByUserId,
+  savePaymentData,
+};

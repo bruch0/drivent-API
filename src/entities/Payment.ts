@@ -1,35 +1,30 @@
-import {
-    BaseEntity,
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-  } from "typeorm";
-  
-  @Entity("payments")
-  export default class Payment extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-  
-    @Column()
-    ticket: string;
-  
-    @Column()
-    hotel: boolean;
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
-    @Column()
-    value: number;
+@Entity("payments")
+export default class Payment extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    userId: number;
+  @Column({ default: false })
+  hotel: boolean;
 
-    static async savePayment(ticket: string, hotel: boolean, value: number, userId: number) {
-        const newData = this.create({ticket, hotel, value, userId});
-        await newData.save();
+  @Column()
+  ticket: string;
 
-        return newData;
-    }
+  @Column()
+  value: number;
 
-    static async getPayment(userId: number) {
-        return await this.findOne(userId);
-      }
+  @Column()
+  userId: number;
+
+  static async findByUserId(userId: number) {
+    return await this.findOne({ where: { userId } });
   }
+
+  static async savePayment(ticket: string, hotel: boolean, value: number, userId: number) {
+    const newData = this.create({ ticket, hotel, value, userId });
+    await newData.save();
+
+    return newData;
+  }
+}
