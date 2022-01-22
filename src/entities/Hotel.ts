@@ -21,6 +21,10 @@ export default class Hotel extends BaseEntity {
   @OneToMany(() => Booking, (booking: Booking) => booking.hotel)
   bookings: Booking[];
 
+  static async checkHotel(hotelId: number) {
+    return await this.findOne(hotelId);
+  }
+
   static async getRooms(hotelId: number) {
     const result = await this.createQueryBuilder("hotel")
       .select("booking.roomNumber", "roomNumber")
