@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import httpStatus from "http-status";
 
 import * as hotelService from "@/services/client/hotel";
-import HotelDTO from "@/interfaces/hotelDTO";
 
 export async function getUserHotelInfo(req: Request, res: Response) {
   const hotelInfo = await hotelService.getHotelsInfo(req.user.id);
