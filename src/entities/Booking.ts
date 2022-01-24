@@ -7,6 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
   getConnection,
+  getManager,
 } from "typeorm";
 import Hotel from "./Hotel";
 import User from "./User";
@@ -29,9 +30,11 @@ export default class Booking extends BaseEntity {
   @JoinColumn()
   user: User;
 
-  static async bookTheRoom(bookingId: number, userId: number) {    
-    await this.relateBookingToUser(bookingId, userId);
-    return await this.setBookingStatus(bookingId, true);
+  static async bookingTheRoom(userId: number, room: number, hotel: number) {
+    const [{ id }] = await getManager().query("select bookings.id as id from bookings left join hotels on bookings.\"hotelId\" = hotels.id where bookings.\"roomNumber\" = $1 and bookings.\"isTaken\" = $2 and hotels.id = $3 limit 1;", [room, false, hotel]);
+    await this.relateBookingToUser(id, userId);
+    const { affected } = await this.setBookingStatus(id, true);
+    return affected;
   }
 
   static async freeTheRoom(bookingId: number) {
