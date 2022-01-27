@@ -9,5 +9,6 @@ router.get("/list", controller.getHotelsList);
 router.get("/bookings/:hotelId", controller.getHotelRoomsInfo);
 router.post("/bookings", controller.saveBooking);
 router.get("/confirm", controller.getBooking);
+router.put("/changeroom", controller.alterBooking);
 
 export default router;

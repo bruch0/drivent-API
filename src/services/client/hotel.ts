@@ -27,4 +27,7 @@ export async function saveBookingData(userId: number, hotel: number, room: numbe
 
 export async function getBookingByUser(userId: number) {
   return await Booking.getBookingByUser(userId);
+  
+export async function alterBookingData(userId: number) {
+  return await Booking.freeTheRoom(userId);
 }
