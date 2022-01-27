@@ -23,6 +23,9 @@ export default class Booking extends BaseEntity {
   @Column()
   isTaken: boolean;
 
+  @Column()
+  hotelId: number;
+
   @ManyToOne(() => Hotel, (hotel) => hotel.bookings)
   hotel: Hotel;
 
@@ -31,9 +34,18 @@ export default class Booking extends BaseEntity {
   user: User;
 
   static async bookingTheRoom(userId: number, room: number, hotel: number) {
-    const [{ id }] = await getManager().query("select bookings.id as id from bookings left join hotels on bookings.\"hotelId\" = hotels.id where bookings.\"roomNumber\" = $1 and bookings.\"isTaken\" = $2 and hotels.id = $3 limit 1;", [room, false, hotel]);
-    await this.relateBookingToUser(id, userId);
-    const { affected } = await this.setBookingStatus(id, true);
+    const [{ id: bookingId }] = await getManager().query(
+      `select bookings.id as id 
+      from bookings 
+      left join hotels on bookings."hotelId" = hotels.id 
+      where bookings."roomNumber" = $1 
+      and bookings."isTaken" = $2 
+      and hotels.id = $3 limit 1;`, 
+      [room, false, hotel]);
+
+    await this.relateBookingToUser(bookingId, userId);
+
+    const { affected } = await this.setBookingStatus(bookingId, true);
     return affected;
   }
 
@@ -66,4 +78,26 @@ export default class Booking extends BaseEntity {
       .of(bookingId)
       .set(userId);
   }
+
+  static async getBookingByUser(userId: number) {
+    const [booking] = await this.find({ relations: ["hotel"], where: {
+      user: { id: userId }
+    } });
+
+    if (!booking) return null;
+    const { hotelId, roomNumber } = booking;
+    const vacancies = await this.find({
+      where: { hotelId, roomNumber }
+    });
+
+    const response = {      
+      imageUrl: booking.hotel.imageUrl,
+      name: booking.hotel.name,
+      roomType: vacancies.length,
+      roomNumber: vacancies[0].roomNumber,
+      confirmedCompanions: vacancies.filter((v) => v.isTaken).length - 1
+    };
+    return response;
+  }  
 }
+
