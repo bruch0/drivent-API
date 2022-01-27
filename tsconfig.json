@@ -8,11 +8,18 @@
     "module": "commonjs",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     },
-    "typeRoots": ["./src/@types", "./node_modules/@types"]
+    "typeRoots": [
+      "./src/@types",
+      "./node_modules/@types"
+    ]
   },
-  "include": ["src"],
+  "include": [
+    "src"
+  ],
   "plugins": [
     {
       "transform": "typescript-transform-paths"
