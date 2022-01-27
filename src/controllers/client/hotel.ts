@@ -45,3 +45,11 @@ export async function saveBooking(req: Request, res: Response) {
   
   return res.sendStatus(httpStatus.CREATED);
 }
+
+export async function alterBooking(req: Request, res: Response) {
+  const userId = req.user.id;
+
+  await hotelService.alterBookingData(userId);
+
+  return res.sendStatus(httpStatus.OK);
+}
