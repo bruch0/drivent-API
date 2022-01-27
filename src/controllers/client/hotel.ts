@@ -46,6 +46,12 @@ export async function saveBooking(req: Request, res: Response) {
   return res.sendStatus(httpStatus.CREATED);
 }
 
+export async function getBooking(req: Request, res: Response) {
+  const userId  = req.user.id;
+  const booking = await hotelService.getBookingByUser(userId);
+  if (!booking) res.sendStatus(404);
+  return res.status(200).send(booking);
+  
 export async function alterBooking(req: Request, res: Response) {
   const userId = req.user.id;
 
