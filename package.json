@@ -15,7 +15,7 @@
     "migration:create": "npm run build && npm run typeorm -- migration:create -n ",
     "eslint": "npx eslint src",
     "eslint:fix": "npx eslint --fix src",
-    "seed": "NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 ts-node -r tsconfig-paths/register ./src/seeders",
+    "seed": "NODE_TLS_REJECT_UNAUTHORIZED=0 ts-node -r tsconfig-paths/register ./src/seeders",
     "prepare": "husky install"
   },
   "keywords": [],
