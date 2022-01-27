@@ -37,7 +37,8 @@ export default class Booking extends BaseEntity {
     return affected;
   }
 
-  static async freeTheRoom(bookingId: number) {
+  static async freeTheRoom(userId: number) {
+    const bookingId = await this.getBookingIdFromUser(userId);
     await this.relateBookingToUser(bookingId, null);
     return await this.setBookingStatus(bookingId, false);
   }
@@ -65,5 +66,10 @@ export default class Booking extends BaseEntity {
       .relation(Booking, "user")
       .of(bookingId)
       .set(userId);
+  }
+
+  static async getBookingIdFromUser(userId: number) {
+    const hotel = await this.findOne({ where: { user: userId } });
+    return hotel.id;
   }
 }
