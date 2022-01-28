@@ -18,9 +18,9 @@ export default class Activity extends BaseEntity {
   vacancies: number;
 
   @Column()
-  time: Date;
+  time: string;
 
   static async getDates() {
-    return this.find({ select: ["time"] });
+    return this.find({ select: ["id", "time"] });
   }
 }
