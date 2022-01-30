@@ -54,6 +54,15 @@ export default class Enrollment extends BaseEntity {
   }
 
   static async createOrUpdate(data: EnrollmentData) {
+    const cpfIsTaken = await getConnection()
+      .createQueryBuilder()
+      .select("enrollments.id as id")
+      .from(Enrollment, "enrollments")
+      .where(`enrollments.cpf = '${data.cpf}'`)
+      .execute();
+
+    if (cpfIsTaken[0]?.id) throw new CpfNotAvailableError(data.cpf);
+
     const user = await getConnection()
       .createQueryBuilder()
       .select("users.id as id")
