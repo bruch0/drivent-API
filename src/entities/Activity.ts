@@ -41,5 +41,9 @@ export default class Activity extends BaseEntity {
     }
   })
   users: User[]
+
+  static async getDates() {
+    return this.find({ select: ["id", "time"] });
+  }
 }
   
