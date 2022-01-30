@@ -45,5 +45,9 @@ export default class Activity extends BaseEntity {
   static async getDates() {
     return this.find({ select: ["id", "time"] });
   }
+
+  static async findActivitiesByDate(time: string) {
+    return await this.find({ where: { time } });
+  }
 }
   
