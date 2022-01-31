@@ -73,7 +73,7 @@ export default class Activity extends BaseEntity {
 
   static async findActivitiesByDate(time: string) {
     console.log("tempO ", time);
-    const resultDesepero = getManager().query("SELECT * FROM activities;");
+    const resultDesepero = await getManager().query("SELECT * FROM activities;");
     console.log("resultdesepepepep", resultDesepero);
     const result = await this.find({ where: { time } });
     console.log(result);
