@@ -1,4 +1,12 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+  BaseEntity,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  JoinTable,  
+} from "typeorm";
+import User from "./User";
 
 @Entity("activities")
 export default class Activity extends BaseEntity {
@@ -17,10 +25,29 @@ export default class Activity extends BaseEntity {
   @Column()
   vacancies: number;
 
-  @Column()
-  time: string;
+  @Column({ type: "timestamp" })
+  time: Date;
+
+  @ManyToMany(() => User, user => user.id)
+  @JoinTable({
+    name: "user_activity",
+    joinColumn: { 
+      name: "activityId", 
+      referencedColumnName: "id"
+    },
+    inverseJoinColumn: {
+      name: "userId",
+      referencedColumnName: "id"
+    }
+  })
+  users: User[]
 
   static async getDates() {
     return this.find({ select: ["id", "time"] });
   }
+
+  static async findActivitiesByDate(time: string) {
+    return await this.find({ where: { time } });
+  }
 }
+  
