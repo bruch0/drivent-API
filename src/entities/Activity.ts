@@ -71,6 +71,7 @@ export default class Activity extends BaseEntity {
   }
 
   static async findActivitiesByDate(time: string) {
+    console.log("tempO ", time);
     const result = await this.find({ where: { time } });
     console.log(result);
     return result;
