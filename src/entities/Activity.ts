@@ -67,5 +67,9 @@ export default class Activity extends BaseEntity {
     } });
     return userActivities;
   }
+  
+  static async findActivitiesByDate(time: string) {
+    return await this.find({ where: { time } });
+  }
 }
   

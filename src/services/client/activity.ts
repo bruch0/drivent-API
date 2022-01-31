@@ -19,3 +19,8 @@ export async function postActivity(activityId: number, userId: number) {
   return Activity.subscribe(activityId, userId);
 }
 
+export async function getActivitiesByDay(time: string) {
+  const activities = await Activity.findActivitiesByDate(time);
+  return activities;
+}
+
