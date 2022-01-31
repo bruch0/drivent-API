@@ -4,7 +4,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToMany,
-  JoinTable,  
+  JoinTable,
+  getConnection,  
 } from "typeorm";
 import User from "./User";
 
@@ -28,7 +29,9 @@ export default class Activity extends BaseEntity {
   @Column({ type: "timestamp" })
   time: Date;
 
-  @ManyToMany(() => User, user => user.id)
+  @ManyToMany(() => User, user => user.id, {
+    cascade: true
+  })
   @JoinTable({
     name: "user_activity",
     joinColumn: { 
@@ -46,6 +49,25 @@ export default class Activity extends BaseEntity {
     return this.find({ select: ["id", "time"] });
   }
 
+  static getActivity(activityId: number) {
+    return this.find({ id: activityId });
+  }
+
+  static async subscribe(activityId: number, userId: number) {
+    return getConnection()
+      .createQueryBuilder()
+      .relation(Activity, "users")
+      .of(activityId)
+      .add(userId);
+  }
+
+  static async getUserActivities(userId: number) {
+    const userActivities = await this.find({ where: {
+      users: { userId }
+    } });
+    return userActivities;
+  }
+  
   static async findActivitiesByDate(time: string) {
     return await this.find({ where: { time } });
   }
