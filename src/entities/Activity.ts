@@ -49,12 +49,23 @@ export default class Activity extends BaseEntity {
     return this.find({ select: ["id", "time"] });
   }
 
+  static getActivity(activityId: number) {
+    return this.find({ id: activityId });
+  }
+
   static async subscribe(activityId: number, userId: number) {
-    return await getConnection()
+    return getConnection()
       .createQueryBuilder()
       .relation(Activity, "users")
       .of(activityId)
       .add(userId);
+  }
+
+  static async getUserActivities(userId: number) {
+    const userActivities = await this.find({ where: {
+      users: { userId }
+    } });
+    return userActivities;
   }
 }
   
