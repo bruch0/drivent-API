@@ -6,6 +6,7 @@ import {
   ManyToMany,
   JoinTable,
   getConnection,
+  getManager,
 } from "typeorm";
 import User from "./User";
 
@@ -27,7 +28,7 @@ export default class Activity extends BaseEntity {
   vacancies: number;
 
   @Column({ type: "timestamp" })
-  time: Date;
+  time: string;
 
   @ManyToMany(() => User, (user) => user.id, {
     cascade: true,
@@ -72,6 +73,8 @@ export default class Activity extends BaseEntity {
 
   static async findActivitiesByDate(time: string) {
     console.log("tempO ", time);
+    const resultDesepero = getManager().query("SELECT * FROM activities;");
+    console.log("resultdesepepepep", resultDesepero);
     const result = await this.find({ where: { time } });
     console.log(result);
     return result;
