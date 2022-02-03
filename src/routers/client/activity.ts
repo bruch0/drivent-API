@@ -7,5 +7,6 @@ const router = Router();
 router.get("/dates", controller.getActivitiesDateInfo);
 router.post("/subscribe", controller.postNewActivity);
 router.get("/activities", controller.getActivitiesByDay);
+router.get("/activity", controller.getActivityStatus);
 
 export default router;
