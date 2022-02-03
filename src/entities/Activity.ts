@@ -6,7 +6,7 @@ import {
   ManyToMany,
   JoinTable,
   getConnection,
-  getManager,
+  getManager,  
 } from "typeorm";
 import User from "./User";
 
@@ -28,23 +28,23 @@ export default class Activity extends BaseEntity {
   vacancies: number;
 
   @Column({ type: "timestamp" })
-  time: string;
+  time: Date;
 
-  @ManyToMany(() => User, (user) => user.id, {
-    cascade: true,
+  @ManyToMany(() => User, user => user.id, {
+    cascade: true
   })
   @JoinTable({
     name: "user_activity",
-    joinColumn: {
-      name: "activityId",
-      referencedColumnName: "id",
+    joinColumn: { 
+      name: "activityId", 
+      referencedColumnName: "id"
     },
     inverseJoinColumn: {
       name: "userId",
-      referencedColumnName: "id",
-    },
+      referencedColumnName: "id"
+    }
   })
-  users: User[];
+  users: User[]
 
   static async getDates() {
     return this.find({ select: ["id", "time"] });
@@ -52,6 +52,14 @@ export default class Activity extends BaseEntity {
 
   static getActivity(activityId: number) {
     return this.find({ id: activityId });
+  }
+
+  static async getActivityStatus({ activityId, userId }: {activityId: number, userId: number}) {
+    const activity = await getManager().query("select * from user_activity where \"userId\" = $1 and \"activityId\" = $2;", [userId, activityId]);  
+    if (activity.length === 0) {
+      return false;
+    }
+    return true;
   }
 
   static async subscribe(activityId: number, userId: number) {
@@ -63,16 +71,12 @@ export default class Activity extends BaseEntity {
   }
 
   static async getUserActivities(userId: number) {
-    const userActivities = await this.find({
-      where: {
-        users: { userId },
-      },
-    });
+    const userActivities = await getManager().query(`select * from user_activity inner join activities on activities.id = user_activity."activityId" WHERE "userId" = ${userId};`);
     return userActivities;
   }
-
+  
   static async findActivitiesByDate(time: string) {
-    const result = await getManager().query(`SELECT * FROM activities WHERE time='${time}';`);
-    return result;
+    return await this.find({ where: { time } });
   }
 }
+  

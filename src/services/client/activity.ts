@@ -24,3 +24,6 @@ export async function getActivitiesByDay(time: string) {
   return activities;
 }
 
+export async function getActivityStatus({ userId, activityId }: {userId: number, activityId: number}) {
+  return await Activity.getActivityStatus({ userId, activityId });
+}
