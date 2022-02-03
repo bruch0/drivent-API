@@ -16,10 +16,9 @@ export async function getActivitiesDateInfo(req: Request, res: Response) {
 
 export async function getActivityStatus(req: Request, res: Response) {
   const userId = req.user.id;
-  const { activityId } = req.body;
+  const activityId = Number(req.params.activityId);
 
   const isRegistered = await activitiesService.getActivityStatus({ userId, activityId });
-
   res.status(200).send({ isRegistered });
 }
 
