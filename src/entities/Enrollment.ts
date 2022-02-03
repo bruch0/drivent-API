@@ -61,7 +61,9 @@ export default class Enrollment extends BaseEntity {
       .where(`enrollments.cpf = '${data.cpf}'`)
       .execute();
 
-    if (cpfIsTaken[0]?.id) throw new CpfNotAvailableError(data.cpf);
+    if (cpfIsTaken[0]?.id) {
+      if (cpfIsTaken[0].id !== data.userId) throw new CpfNotAvailableError(data.cpf);
+    }
 
     const user = await getConnection()
       .createQueryBuilder()
@@ -74,6 +76,18 @@ export default class Enrollment extends BaseEntity {
     let enrollment = await this.findOne({ where: { userId } });
     if (enrollment && enrollment.userId !== data.userId) {
       throw new CpfNotAvailableError(data.cpf);
+    }
+
+    if (enrollment) {
+      const { cpf, birthday, phone, name } = data;
+
+      this.createQueryBuilder()
+        .update(Enrollment)
+        .set({ cpf, birthday, phone, name })
+        .where("id= :id", { id: userId })
+        .execute();
+
+      return;
     }
 
     enrollment ||= Enrollment.create();
