@@ -49,8 +49,6 @@ export async function getActivitiesByDay(req: Request, res: Response) {
 
   const activities = activities1.concat(activities2);
 
-  console.log("eae");
-  console.log(activities);
 
   if (!activities) {
     return res.sendStatus(httpStatus.NO_CONTENT);
