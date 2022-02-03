@@ -56,7 +56,6 @@ export default class Activity extends BaseEntity {
 
   static async getActivityStatus({ activityId, userId }: {activityId: number, userId: number}) {
     const activity = await getManager().query("select * from user_activity where \"userId\" = $1 and \"activityId\" = $2;", [userId, activityId]);  
-    console.log({ activity });
     if (activity.countRows === 0) {
       return false;
     }
